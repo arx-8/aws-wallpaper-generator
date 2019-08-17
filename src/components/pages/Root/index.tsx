@@ -1,25 +1,39 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core"
-import logo from "assets/logo.svg"
-import React, { useState } from "react"
 import html2canvas from "html2canvas"
+import React, { useState, useEffect } from "react"
 
 type OwnProps = {
   children?: never
 }
 
+const head = "https://raw.githubusercontent.com/arx-8/aws-icons/master"
+
+const links = [
+  `${head}/PNG Dark/Application Integration/AWS-Step-Functions@4x.png`,
+  `${head}/PNG Dark/Application Integration/Amazon-Simple-Notification-Service-SNS_dark-bg@4x.png`,
+]
+
 export const Root: React.FC<OwnProps> = () => {
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null)
+  const [width, setWidth] = useState<number>(600)
+  const [height, setHeight] = useState<number>(600)
+
+  useEffect(() => {
+    document.body.style.width = `${width}px`
+    document.body.style.height = `${height}px`
+  }, [height, width])
+
+  const onChangeSize = (width: number, height: number): void => {
+    setWidth(width)
+    setHeight(height)
+  }
 
   const onClick = async (): Promise<void> => {
     const canvas = await html2canvas(document.body, {
       allowTaint: true,
-      width: window.innerWidth,
-      height: window.innerHeight,
-      scrollX: window.pageXOffset,
-      scrollY: window.pageYOffset,
-      x: window.pageXOffset,
-      y: window.pageYOffset,
+      width,
+      height,
     })
 
     canvas.style.position = "fixed"
@@ -36,22 +50,20 @@ export const Root: React.FC<OwnProps> = () => {
 
   return (
     <div css={root}>
-      <header css={header}>
-        <img css={logoCss} src={logo} alt="logo" />
+      <div css={inner}>
+        {links.map((l) => (
+          <img key={l} src={l} alt="logo" width={100} height={100} />
+        ))}
         <p>Hello React</p>
         <button onClick={onClick}>Capture</button>
+
+        <button onClick={() => onChangeSize(1920, 1200)}>1920x1200</button>
+        <button onClick={() => onChangeSize(600, 600)}>600x600</button>
+
         {canvas && (
           <CanvasContainer canvas={canvas} onClose={() => setCanvas(null)} />
         )}
-        <a
-          css={link}
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      </div>
     </div>
   )
 }
@@ -60,23 +72,12 @@ const root = css`
   text-align: center;
 `
 
-const header = css`
-  background-color: #282c34;
-  min-height: 100vh;
+const inner = css`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
   color: white;
-`
-
-const logoCss = css`
-  height: 40vmin;
-`
-
-const link = css`
-  color: #61dafb;
 `
 
 type InnerOwnProps = {

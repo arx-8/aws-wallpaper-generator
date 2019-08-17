@@ -20,6 +20,8 @@ const globalStyles = css`
       "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    background-color: #282c34;
   }
 
   code {

@@ -1,5 +1,4 @@
 import { Routes } from "components/helpers/Routes"
-import { Header } from "components/organisms/Header"
 import { GlobalStyles } from "components/styles/GlobalStyles"
 import React from "react"
 import ReactDOM from "react-dom"
@@ -15,7 +14,6 @@ const App: React.FC = () => {
     <ReduxProvider store={reduxStore}>
       <Router>
         <GlobalStyles />
-        <Header />
         <Routes />
       </Router>
     </ReduxProvider>
