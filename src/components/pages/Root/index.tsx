@@ -1,7 +1,8 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core"
+import { ScreenshotView } from "components/organisms/ScreenshotView"
 import html2canvas from "html2canvas"
-import React, { useState, useEffect } from "react"
+import React, { useEffect, useState } from "react"
 
 type OwnProps = {
   children?: never
@@ -61,7 +62,7 @@ export const Root: React.FC<OwnProps> = () => {
         <button onClick={() => onChangeSize(600, 600)}>600x600</button>
 
         {canvas && (
-          <CanvasContainer canvas={canvas} onClose={() => setCanvas(null)} />
+          <ScreenshotView canvas={canvas} onClose={() => setCanvas(null)} />
         )}
       </div>
     </div>
@@ -78,59 +79,4 @@ const inner = css`
   align-items: center;
   justify-content: center;
   color: white;
-`
-
-type InnerOwnProps = {
-  canvas: HTMLCanvasElement
-  onClose: () => void
-}
-
-class CanvasContainer extends React.Component<InnerOwnProps> {
-  private container: HTMLDivElement | null = null
-
-  constructor(props: InnerOwnProps) {
-    super(props)
-    this.state = { open: false, complete: false }
-  }
-
-  componentDidMount(): void {
-    if (this.container) {
-      this.container.appendChild(this.props.canvas)
-      setTimeout(() => {
-        this.props.canvas.style.opacity = "1"
-        this.props.canvas.style.transform = "scale(0.8)"
-      }, 10)
-    }
-  }
-
-  render(): React.ReactElement {
-    return (
-      <div
-        css={canvasContainerCss}
-        ref={(container) => (this.container = container)}
-      >
-        <button
-          onClick={() => this.props.onClose()}
-          style={{
-            position: "absolute",
-            right: "20px",
-            top: "20px",
-            cursor: "pointer",
-          }}
-        >
-          Close
-        </button>
-      </div>
-    )
-  }
-}
-
-const canvasContainerCss = css`
-  background: rgba(0, 0, 0, 0.5);
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 99999998;
-  width: 100%;
-  height: 100%;
 `
