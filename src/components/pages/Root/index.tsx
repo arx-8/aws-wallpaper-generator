@@ -30,7 +30,7 @@ export const Root: React.FC<OwnProps> = () => {
     setHeight(height)
   }
 
-  const onClick = async (): Promise<void> => {
+  const onScreenshot = async (): Promise<void> => {
     const canvas = await html2canvas(document.body, {
       allowTaint: true,
       width,
@@ -56,7 +56,7 @@ export const Root: React.FC<OwnProps> = () => {
           <img key={l} src={l} alt="logo" width={100} height={100} />
         ))}
         <p>Hello React</p>
-        <button onClick={onClick}>Capture</button>
+        <button onClick={onScreenshot}>Capture</button>
 
         <button onClick={() => onChangeSize(1920, 1200)}>1920x1200</button>
         <button onClick={() => onChangeSize(600, 600)}>600x600</button>
